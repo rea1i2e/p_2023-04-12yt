@@ -6,30 +6,17 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	<!-- <link rel="stylesheet" href="style.css"> -->
-	<style>
-		.play-btn {
-			width: 60px;
-			height: 60px;
-			background: url('play.svg') no-repeat center;
-			background-size: 50%;
-			border: none;
-			cursor: pointer;
-		}
-
-		.pause-btn {
-			/* background: url('pause.svg') no-repeat center; */
-			background: url('play.svg') no-repeat center;
-			transform: rotate(180deg);
-			background-size: 50%;
-		}
-	</style>
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 	<div class="video-wrapper">
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/akWl5ScVgUs?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> <button id="play-pause-btn" class="play-btn"></button>
+		<iframe class="video-iframe" width="560" height="315" src="https://www.youtube.com/embed/akWl5ScVgUs?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+		<button id="play-pause-btn" class="play-btn"></button>
 	</div>
+
+
+	<script src="https://www.youtube.com/iframe_api"></script>
 
 	<script>
 		const video = document.querySelector('.video-iframe');
@@ -50,6 +37,18 @@
 		}
 
 		playPauseBtn.addEventListener('click', playPauseVideo);
+
+		video.addEventListener('onStateChange', function(state) {
+			if (state.data === YT.PlayerState.PLAYING) {
+				playPauseBtn.classList.remove('play-btn');
+				playPauseBtn.classList.add('pause-btn');
+				isPlaying = true;
+			} else {
+				playPauseBtn.classList.remove('pause-btn');
+				playPauseBtn.classList.add('play-btn');
+				isPlaying = false;
+			}
+		});
 	</script>
 
 </body>
