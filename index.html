@@ -65,7 +65,10 @@
 		}
 
 		#play-pause-btn.play-btn {
-			background: url(https://rea1i2e.github.io/sample-images/images/picture05.jpg) no-repeat center / cover;
+			background-image: url(https://rea1i2e.github.io/sample-images/images/picture05.jpg);
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
 			height: 100%;
 		}
 
@@ -81,7 +84,6 @@
 		}
 
 		#play-pause-btn.play-btn::after {
-
 			content: none;
 		}
 	</style>
@@ -94,44 +96,59 @@
 	</div>
 	<script src="https://www.youtube.com/iframe_api"></script>
 	<script>
+		// 変数の宣言
 		let player;
+
+		// HTMLの要素を取得して定数に代入
 		const playPauseBtn = document.querySelector('#play-pause-btn');
+
+		// 再生中かどうかを表すフラグ
 		let isPlaying = false;
 
+		// YouTube APIが読み込まれたときに呼ばれる関数
 		function onYouTubeIframeAPIReady() {
+			// YouTubeプレイヤーオブジェクトを作成
 			player = new YT.Player('player', {
-				videoId: 'akWl5ScVgUs',
+				videoId: 'akWl5ScVgUs', // 再生するYouTube動画のID
 				events: {
-					'onStateChange': onPlayerStateChange
+					'onStateChange': onPlayerStateChange // プレイヤーの状態が変化したときに呼ばれる関数を設定
 				}
 			});
 		}
 
+		// プレイヤーの状態が変化したときに呼ばれる関数
 		function onPlayerStateChange(event) {
-			if (event.data === YT.PlayerState.PLAYING) {
+			if (event.data === YT.PlayerState.PLAYING) { // プレイヤーが再生中のとき
+				// 再生ボタンのスタイルを変更して、フラグを更新
 				playPauseBtn.classList.remove('play-btn');
 				playPauseBtn.classList.add('pause-btn');
 				isPlaying = true;
-			} else {
+			} else { // プレイヤーが停止中のとき
+				// 停止ボタンのスタイルを変更して、フラグを更新
 				playPauseBtn.classList.remove('pause-btn');
 				playPauseBtn.classList.add('play-btn');
 				isPlaying = false;
 			}
 		}
 
+		// 再生・停止ボタンがクリックされたときに呼ばれる関数
 		function playPauseVideo() {
-			if (isPlaying) {
+			if (isPlaying) { // 再生中の場合
+				// プレイヤーを停止して、ボタンのスタイルを変更
 				player.pauseVideo();
 				playPauseBtn.classList.remove('pause-btn');
 				playPauseBtn.classList.add('play-btn');
-			} else {
+			} else { // 停止中の場合
+				// プレイヤーを再生して、ボタンのスタイルを変更
 				player.playVideo();
 				playPauseBtn.classList.remove('play-btn');
 				playPauseBtn.classList.add('pause-btn');
 			}
+			// フラグを更新
 			isPlaying = !isPlaying;
 		}
 
+		// 再生・停止ボタンのクリックイベントに関数を登録
 		playPauseBtn.addEventListener('click', playPauseVideo);
 	</script>
 </body>
