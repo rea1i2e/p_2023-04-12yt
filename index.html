@@ -1,56 +1,81 @@
 <!DOCTYPE html>
-<html lang="ja">
-
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Customized YouTube Player</title>
+  <style>
+    #player-wrapper {
+      position: relative;
+      width: 640px;
+      height: 360px;
+    }
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+    #play-pause-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: red;
+      border: none;
+      outline: none;
+    }
+    #play-pause-btn.play-btn {
+      background-color: green;
+    }
+  </style>
 </head>
-
 <body>
-	<div class="video-wrapper">
-		<iframe class="video-iframe" width="560" height="315" src="https://www.youtube.com/embed/akWl5ScVgUs?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-		<button id="play-pause-btn" class="play-btn"></button>
-	</div>
+  <div id="player-wrapper">
+    <div id="player"></div>
+    <button id="play-pause-btn" class="play-btn"></button>
+  </div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+    const playPauseBtn = document.querySelector('#play-pause-btn');
+    let isPlaying = false;
 
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        videoId: 'M7lc1UVf-VE',
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
 
-	<script src="https://www.youtube.com/iframe_api"></script>
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        playPauseBtn.classList.remove('play-btn');
+        playPauseBtn.classList.add('pause-btn');
+        isPlaying = true;
+      } else {
+        playPauseBtn.classList.remove('pause-btn');
+        playPauseBtn.classList.add('play-btn');
+        isPlaying = false;
+      }
+    }
 
-	<script>
-		const video = document.querySelector('.video-iframe');
-		const playPauseBtn = document.querySelector('#play-pause-btn');
-		let isPlaying = false;
+    function playPauseVideo() {
+      if (isPlaying) {
+        player.pauseVideo();
+        playPauseBtn.classList.remove('pause-btn');
+        playPauseBtn.classList.add('play-btn');
+      } else {
+        player.playVideo();
+        playPauseBtn.classList.remove('play-btn');
+        playPauseBtn.classList.add('pause-btn');
+      }
+      isPlaying = !isPlaying;
+    }
 
-		function playPauseVideo() {
-			if (isPlaying) {
-				video.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-				playPauseBtn.classList.remove('pause-btn');
-				playPauseBtn.classList.add('play-btn');
-			} else {
-				video.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-				playPauseBtn.classList.remove('play-btn');
-				playPauseBtn.classList.add('pause-btn');
-			}
-			isPlaying = !isPlaying;
-		}
-
-		playPauseBtn.addEventListener('click', playPauseVideo);
-
-		video.addEventListener('onStateChange', function(state) {
-			if (state.data === YT.PlayerState.PLAYING) {
-				playPauseBtn.classList.remove('play-btn');
-				playPauseBtn.classList.add('pause-btn');
-				isPlaying = true;
-			} else {
-				playPauseBtn.classList.remove('pause-btn');
-				playPauseBtn.classList.add('play-btn');
-				isPlaying = false;
-			}
-		});
-	</script>
-
+    playPauseBtn.addEventListener('click', playPauseVideo);
+  </script>
 </body>
-
 </html>
