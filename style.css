@@ -65,3 +65,18 @@
   border-left: 1.8rem solid #fff;
   box-sizing: border-box;
 }
+
+
+.play-btn {
+  width: 60px;
+  height: 60px;
+  background: url('play.svg') no-repeat center;
+  background-size: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.pause-btn {
+  background: url('pause.svg') no-repeat center;
+  background-size: 50%;
+}
