@@ -96,59 +96,46 @@
 	</div>
 	<script src="https://www.youtube.com/iframe_api"></script>
 	<script>
-		// 変数の宣言
 		let player;
-
-		// HTMLの要素を取得して定数に代入
 		const playPauseBtn = document.querySelector('#play-pause-btn');
-
-		// 再生中かどうかを表すフラグ
 		let isPlaying = false;
 
-		// YouTube APIが読み込まれたときに呼ばれる関数
 		function onYouTubeIframeAPIReady() {
-			// YouTubeプレイヤーオブジェクトを作成
 			player = new YT.Player('player', {
-				videoId: 'akWl5ScVgUs', // 再生するYouTube動画のID
+				videoId: 'akWl5ScVgUs',
 				events: {
-					'onStateChange': onPlayerStateChange // プレイヤーの状態が変化したときに呼ばれる関数を設定
+					'onStateChange': onPlayerStateChange
 				}
 			});
 		}
 
-		// プレイヤーの状態が変化したときに呼ばれる関数
 		function onPlayerStateChange(event) {
-			if (event.data === YT.PlayerState.PLAYING) { // プレイヤーが再生中のとき
-				// 再生ボタンのスタイルを変更して、フラグを更新
+			if (event.data === YT.PlayerState.PLAYING) {
 				playPauseBtn.classList.remove('play-btn');
 				playPauseBtn.classList.add('pause-btn');
 				isPlaying = true;
-			} else { // プレイヤーが停止中のとき
-				// 停止ボタンのスタイルを変更して、フラグを更新
+			} else {
 				playPauseBtn.classList.remove('pause-btn');
 				playPauseBtn.classList.add('play-btn');
 				isPlaying = false;
 			}
 		}
 
-		// 再生・停止ボタンがクリックされたときに呼ばれる関数
 		function playPauseVideo() {
-			if (isPlaying) { // 再生中の場合
-				// プレイヤーを停止して、ボタンのスタイルを変更
+			if (isPlaying) {
 				player.pauseVideo();
 				playPauseBtn.classList.remove('pause-btn');
 				playPauseBtn.classList.add('play-btn');
-			} else { // 停止中の場合
-				// プレイヤーを再生して、ボタンのスタイルを変更
+			} else {
 				player.playVideo();
-				playPauseBtn.classList.remove('play-btn');
-				playPauseBtn.classList.add('pause-btn');
+				setTimeout(() => {
+					playPauseBtn.classList.remove('play-btn');
+					playPauseBtn.classList.add('pause-btn');
+				}, 1000); // 1秒遅れて実行する（初回再生時のみ、サムネイル画像が一瞬再表示される問題解消のため）
 			}
-			// フラグを更新
 			isPlaying = !isPlaying;
 		}
 
-		// 再生・停止ボタンのクリックイベントに関数を登録
 		playPauseBtn.addEventListener('click', playPauseVideo);
 	</script>
 </body>
