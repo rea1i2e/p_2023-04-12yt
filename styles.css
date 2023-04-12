@@ -1,17 +1,17 @@
-#player-wrapper {
+.p-player {
 	margin: auto;
 	position: relative;
 	max-width: 560px;
 	width: 100%;
 }
 
-#player-wrapper::before {
+.p-player::before {
 	display: block;
 	padding-top: calc(9 / 16 * 100%);
 	content: "";
 }
 
-#player {
+.p-player__frame {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -21,7 +21,7 @@
 	width: 100%;
 }
 
-#play-pause-btn {
+.p-player__button {
 	display: inline-flex;
 	flex-direction: column;
 	align-items: center;
@@ -38,7 +38,7 @@
 	background-color: transparent;
 }
 
-#play-pause-btn::before {
+.p-player__button::before {
 	display: block;
 	width: 26px;
 	height: 4px;
@@ -46,7 +46,7 @@
 	content: "";
 }
 
-#play-pause-btn::after {
+.p-player__button::after {
 	margin-top: 4px;
 	display: block;
 	width: 26px;
@@ -55,7 +55,7 @@
 	content: "";
 }
 
-#play-pause-btn.play-btn {
+.p-player__button--play {
 	background-image: url(https://rea1i2e.github.io/sample-images/images/picture05.jpg);
 	background-position: center;
 	background-repeat: no-repeat;
@@ -63,7 +63,7 @@
 	height: 100%;
 }
 
-#play-pause-btn.play-btn::before {
+.p-player__button--play::before {
 	display: block;
 	width: 0;
 	height: 0;
@@ -74,6 +74,6 @@
 	content: "";
 }
 
-#play-pause-btn.play-btn::after {
+.p-player__button--play::after {
 	content: none;
 }
