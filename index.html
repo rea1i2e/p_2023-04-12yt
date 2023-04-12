@@ -1,143 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 	<title>Customized YouTube Player</title>
-	<style>
-		#player-wrapper {
-			margin: auto;
-			position: relative;
-			max-width: 560px;
-			width: 100%;
-		}
-
-		#player-wrapper::before {
-			display: block;
-			padding-top: calc(9 / 16 * 100%);
-			content: "";
-		}
-
-		#player {
-			position: absolute;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			height: 100%;
-			width: 100%;
-
-		}
-
-		#play-pause-btn {
-			display: inline-flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			width: 100%;
-			height: 50%;
-			padding: 0;
-			border: none;
-			cursor: pointer;
-			background-color: transparent;
-		}
-
-		#play-pause-btn::before {
-			display: block;
-			width: 26px;
-			height: 4px;
-			background-color: #fff;
-			content: "";
-		}
-
-		#play-pause-btn::after {
-			margin-top: 4px;
-			display: block;
-			width: 26px;
-			height: 4px;
-			background-color: #fff;
-			content: "";
-		}
-
-		#play-pause-btn.play-btn {
-			background-image: url(https://rea1i2e.github.io/sample-images/images/picture05.jpg);
-			background-position: center;
-			background-repeat: no-repeat;
-			background-size: cover;
-			height: 100%;
-		}
-
-		#play-pause-btn.play-btn::before {
-			display: block;
-			width: 0;
-			height: 0;
-			background-color: transparent;
-			border-style: solid;
-			border-width: 11px 0 11px 26px;
-			border-color: transparent transparent transparent #007bff;
-			content: "";
-		}
-
-		#play-pause-btn.play-btn::after {
-			content: none;
-		}
-	</style>
+	<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 	<div id="player-wrapper">
 		<div id="player"></div>
 		<button id="play-pause-btn" class="play-btn"></button>
 	</div>
 	<script src="https://www.youtube.com/iframe_api"></script>
-	<script>
-		let player;
-		const playPauseBtn = document.querySelector('#play-pause-btn');
-		let isPlaying = false;
-
-		function onYouTubeIframeAPIReady() {
-			player = new YT.Player('player', {
-				videoId: 'akWl5ScVgUs',
-				events: {
-					'onStateChange': onPlayerStateChange
-				}
-			});
-		}
-
-		function onPlayerStateChange(event) {
-			if (event.data === YT.PlayerState.PLAYING) {
-				playPauseBtn.classList.remove('play-btn');
-				playPauseBtn.classList.add('pause-btn');
-				isPlaying = true;
-			} else {
-				playPauseBtn.classList.remove('pause-btn');
-				playPauseBtn.classList.add('play-btn');
-				isPlaying = false;
-			}
-		}
-
-		function playPauseVideo() {
-			if (isPlaying) {
-				player.pauseVideo();
-				playPauseBtn.classList.remove('pause-btn');
-				playPauseBtn.classList.add('play-btn');
-			} else {
-				player.playVideo();
-				setTimeout(() => {
-					playPauseBtn.classList.remove('play-btn');
-					playPauseBtn.classList.add('pause-btn');
-				}, 1000); // 1秒遅れて実行する（初回再生時のみ、サムネイル画像が一瞬再表示される問題解消のため）
-			}
-			isPlaying = !isPlaying;
-		}
-
-		playPauseBtn.addEventListener('click', playPauseVideo);
-	</script>
+	<script src="script.js"></script>
 </body>
-
 </html>
